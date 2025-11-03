@@ -13,7 +13,7 @@
 	<input
 		type="text"
 		value={todo.text}
-		oninput={() => updateTodo(todo)}
+		oninput={(e) => updateTodo({ ...todo, text: e.currentTarget.value })}
 	/>
 	<button onclick={() => removeTodo(todo)}>🗙</button>
 </li>
