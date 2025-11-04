@@ -32,5 +32,3 @@ onMount(() => {
     });
 
 </script>
-
-<p>${dados}</p>
