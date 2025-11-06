@@ -5,66 +5,75 @@
   	import { writable } from "svelte/store";
     import { btcService } from "./services/btc";
 
-	let dados = $state(writable(''));
+	let ethPrice = $state(writable(''));
+	let btcPrice = $state(writable(''));
+	let gasEstimate = $state(writable(''));
+	let resultFormated = $state(0);
+
+	let src = '/public/refresh.png';
+	let name = 'refresh'
 
 	onMount(async () => {
 		const output = await EthService.Prices()
-		dados.set(output)
-		console.log(output)
+		ethPrice.set(output)
 	})
+
+
+	function formatNumber(value){
+		const FormatedValue = parseFloat(value).toFixed(2)
+		return FormatedValue
+	}
 
 </script>
 
 
-
-
-
-<div class = result>
-	<h1>{parseFloat($dados).toFixed(2)}</h1>
-</div>
-
 <div class = button id=confirm>
 	<button onclick={async () => {
 		const output = await GasService.Gas();
-		dados.set(output);
-	}}>TEMPO CONIRMAÇÃO</button>
+		gasEstimate.set(output);
+	}}>GAS ESTIMATE <img {src} alt="{name}"/></button>
 	<h1>
-		{parseInt($dados)}s
+		{parseInt($gasEstimate)}s
 	</h1>
 </div>
 
 <div class = button id=price>
 	<button onclick={async () => {
 		const output = await EthService.Prices();
-		dados.set(output);
-	}}>PREÇO ETH</button>
+		ethPrice.set(output);
+		console.log($ethPrice);
+	}}>PREÇO ETH <img {src} alt="{name}"/></button>
 	<h1>
-		{parseFloat($dados).toFixed(2)}
+		USD {formatNumber({$ethPrice})};
 	</h1>
 </div>
 <div class = button id=priceBtc>
 	<button onclick={async () => {
 		const output = await btcService.btc();
-		dados.set(output);
-	}}>PREÇO BTC</button>
+		btcPrice.set(output);
+	}}>PREÇO BTC <img {src} alt="{name}"/></button>
 	<h1>
-		{parseFloat($dados).toFixed(2)}
+		USD {parseFloat($btcPrice).toFixed(2)}
 	</h1>
 </div>
 
 
 
 
-
 <style>
-	div.result{
-		text-align: center;
-	}
 	h1{
 		text-align: left;
 	}
 	div.button{
 		margin-left: -300px;
 		margin-top: 20px;
+	}
+	img{
+		width: 25px;
+		margin-left: 20px;
+	}
+	button{
+		color: black;
+		font-family: 'Atkinson Hyperlegible', sans-serif;
 	}
 </style>
