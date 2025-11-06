@@ -8,22 +8,20 @@
 	let ethPrice = $state(writable(''));
 	let btcPrice = $state(writable(''));
 	let gasEstimate = $state(writable(''));
-	let resultFormated = $state(0);
 
 	let src = '/public/refresh.png';
 	let name = 'refresh'
 
 	onMount(async () => {
-		const output = await EthService.Prices()
-		ethPrice.set(output)
+		ethPrice.set('0');
+		gasEstimate.set('0');
+		btcPrice.set('0');
 	})
-
 
 	function formatNumber(value){
 		const FormatedValue = parseFloat(value).toFixed(2)
 		return FormatedValue
 	}
-
 </script>
 
 
@@ -44,7 +42,7 @@
 		console.log($ethPrice);
 	}}>PREÇO ETH <img {src} alt="{name}"/></button>
 	<h1>
-		USD {formatNumber({$ethPrice})};
+		USD$ {formatNumber($ethPrice)}
 	</h1>
 </div>
 <div class = button id=priceBtc>
@@ -53,7 +51,7 @@
 		btcPrice.set(output);
 	}}>PREÇO BTC <img {src} alt="{name}"/></button>
 	<h1>
-		USD {parseFloat($btcPrice).toFixed(2)}
+		USD$ {formatNumber($btcPrice)}
 	</h1>
 </div>
 
